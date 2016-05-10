@@ -1,21 +1,50 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'jekyll serve'. If you change this file, please restart the server process.
+# Basic
+title: 杨力的反思之旅
+subtitle: 虽然是迟来了，但我也来啦^_^
+welcome_message: Believe in yourself.
+description: 嗨，我是杨力(Link Yang)，沉浸于iOS，.Net等应用技术，cocos2d系列/SmartFoxServer相关游戏技术的全能型创意工程师。
+#creator: <a href="http://onev.cat">@onevcat</a>
 
-# Site settings
-title: Your awesome title
-email: your-email@domain.com
-description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
+#url: "http://mobileyangli.github.io"
 
-# Build settings
-markdown: kramdown
+permalink: /:year/:month/:title/
+
+# Format
+highlighter: plain
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "strikethrough", "superscript", tables]
+
+# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
+cover_color: green
+
+blog_button:
+    title: 博客
+    description: 访问博客
+
+#nav:
+#    - {title: 项目, description: 我的项目, url: 'http://project.onevcat.com'}
+#    - {title: 关于, description: 了解更多关于我, url: 'http://about.onevcat.com/'}
+#    - {title: 订阅, description: 邮件订阅本站, url: '//store.objccn.io/subscribe'}
+
+# Pagination
+gems: [jekyll-paginate]
+paginate: 10
+paginate_path: "page/:num/"
+
+# Comment
+#comment:
+#   disqus: onevcat
+    # duoshuo:
+#Social
+#social:
+#    weibo: onevcat
+#    github: onevcat
+#    twitter: onevcat
+#    gplus: 107108267983477358170
+#    mail: onev@onevcat.com
+
+#Google Analytics
+#ga:
+#    id: UA-25719337-1
+#    host: onevcat.com
