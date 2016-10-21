@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>移动开发新生产力系列：（2）函数响应式编程基础第一篇</title>
+  <meta name="description" content="移动开发新生产力系列：（2）函数响应式编程基础第一篇.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun...">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="移动开发新生产力系列：（2）函数响应式编程基础第一篇">
+  <meta name="twitter:description" content="移动开发新生产力系列：（2）函数响应式编程基础第一篇.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun...">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="移动开发新生产力系列：（2）函数响应式编程基础第一篇">
+  <meta property="og:description" content="移动开发新生产力系列：（2）函数响应式编程基础第一篇.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun...">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="/2016/09/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91%E6%96%B0%E7%94%9F%E4%BA%A7%E5%8A%9B%E7%B3%BB%E5%88%97-2-%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%AC%AC%E4%B8%80%E7%AF%87/">
+  <link rel="alternate" type="application/rss+xml" title="杨力的反思之旅" href="/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 杨力的反思之旅 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="杨力的反思之旅 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 杨力的反思之旅" class="blog-button">杨力的反思之旅</a></h1>
+
+        
+        <span class="panel-cover__subtitle panel-subtitle">起个大早，赶个晚集。虽然是迟来了，但我也来啦^_^</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">嗨，我是杨力(Link Yang)，沉浸于iOS移动App，.Net企业应用等技术，Cocos2d系列/SmartFoxServer相关游戏技术的全能型创意工程师。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        <p class="panel-cover__description">Believe in yourself.</p>
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+
+  
+  
+  
+
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-green"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-09-19 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2016-09-19</time> &#8226; <span class="post-meta__tags tags"></span>
+    </div>
+    <h1 class="post-title">移动开发新生产力系列：（2）函数响应式编程基础第一篇</h1>
+  </header>
+
+  <section class="post">
+    <!DOCTYPE html><html><head><title>移动开发新生产力系列：（2）函数响应式编程基础第一篇</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        
+                    
+
+
+
+
+
+<p></p>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#移动开发新生产力系列2函数响应式编程基础第一篇">移动开发新生产力系列：（2）函数响应式编程基础第一篇</a><ul>
+<li><a href="#引子">引子</a></li>
+<li><a href="#指令式编程">指令式编程</a><ul>
+<li><a href="#普遍情况">普遍情况</a></li>
+</ul>
+</li>
+<li><a href="#函数式编程">函数式编程</a><ul>
+<li><a href="#起源">起源</a></li>
+<li><a href="#术语">术语</a></li>
+<li><a href="#基本特性">基本特性：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<hr>
+
+
+
+<h2 id="引子">引子</h2>
+
+<p>针对移动开发，我会整理出一系列文档来给大家推广一下<strong>函数响应式开发(Functional Reactive Programming)</strong>这一新开发方法，最终要落实到具体的框架使用，也就是要重点讲解具体框架。但框架本身体现的是一种思想和思维方式，在此之前，有必要告诉大家函数响应式开发所涉及的具体思想。</p>
+
+<blockquote>
+  <p>函数响应式开发，直白点的理解是“函数式开发” + “响应式开发”</p>
+</blockquote>
+
+<p>这篇文章是个概念的普及篇，让大家知道什么是<strong>函数式编程</strong>和<strong>响应式编程</strong>，对于他们历史和特性做概要了解。不必太深入，毕竟我们不是学校里读硕士博士来搞研究，不必一头扎进去，各个方面和资料都掌握。我们从了解入手，进入到上手使用的程度，然后在学习和工作中积极实践，并丰富和点亮相关的知识树，达到广度和深度都具备，也是我个人学习的一个方法。</p>
+
+
+
+<h2 id="指令式编程">指令式编程</h2>
+
+
+
+<h3 id="普遍情况">普遍情况</h3>
+
+<p><strong>我们一直在用指令式编程</strong>：我们目前很多编程语言和设计方式都是遵照指令式编程范式来做的，回想一下你用的语言是不是都有这样的特性：</p>
+
+<ul><li>常量和变量</li>
+<li>条件控制语句</li>
+<li>循环语句</li>
+</ul>
+
+<p>其实，经过编译器编译后，代码中这些特性都分别变成了指令，对应了计算机中的内存控制，CPU计算和I/O操作。比如赋值，条件判断，控制表达式，每一步都是发出指令的含义，都是对冯诺依曼型计算机模型的指令控制。遵照这样的思维方式，计算机处理从打码器到汇编语言，再到高级语言。编程范式也走过了从面向过程编程到现在大行其道的面向对象编程（OOP）。 <br>
+除了这种计算机处理思路，是否还有其他的思路？ <br>
+其实在冯诺依曼、图灵，同一时期研究计算机处理的方案还有其他人，下面的函数式的创建者邱奇就是其中之一。</p>
+
+
+
+<h2 id="函数式编程">函数式编程</h2>
+
+<blockquote>
+  <p><strong>函数式编程</strong>是一种<strong>编程范式</strong>，就是说是一种编程的方法论，讲怎么样来编程，和指令式编程，如面向过程编程，OOP面向对象编程是一个级别的。</p>
+</blockquote>
+
+
+
+<h3 id="起源">起源</h3>
+
+<p>函数式编程思想不是最近才有，而是要追溯到20世纪30年代，和艾伦图灵、冯诺依曼同时期的阿隆佐邱奇（Alonzo Church）提出的一种解决计算问题的的思想，他设计了一种<a href="http://zh.wikipedia.org/wiki/%CE%9B%E6%BC%94%E7%AE%97" target="_blank"><code>lambda演算</code></a>的系统，本质上是一种为计算机设计的计算语言，这种语言里，解决任何问题都需要函数来解决，而且函数的参数也是函数，返回值也是函数。这种函数用希腊字母lambda（λ）来表示，故此得名。</p>
+
+
+
+<h3 id="术语">术语</h3>
+
+<p>函数式编程中基本术语：</p>
+
+<blockquote>
+  <p><strong>高阶函数</strong>：函数式编程中，接受函数做为参数，或者返回函数做为返回值，术语叫做<strong>高阶函数</strong>。 <br>
+  高阶函数可以组合和返回，也是高阶函数的特性。</p>
+</blockquote>
+
+
+
+<h3 id="基本特性">基本特性：</h3>
+
+<ol start="1"><li rel="1">函数是基本单位，第一公民，可以用作一切，可以同指令式编程的中int，string等数据类型一样，作为参数和返回值来使用。 <br>
+开始我们看一下JS里变量打印一个数组的做法：</li>
+</ol>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-javascript hljs"><span class="hljs-keyword">var</span> array = [<span class="hljs-string">'1'</span>, <span class="hljs-string">'2'</span>, <span class="hljs-string">'3'</span>];<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {<br>    <span class="hljs-built_in">console</span>.log(array[i]);  <br>}<br></code></pre>
+
+<p>再正常不过了，for循环遍历一下，挨个输出。</p>
+
+<p>我们来看一下函数式的写法：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-javascript hljs"><span class="hljs-keyword">var</span> print = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">i</span>) </span>{ <span class="hljs-built_in">console</span>.log(i);};<br>[<span class="hljs-string">'1'</span>,<span class="hljs-string">'2'</span>,<span class="hljs-string">'3'</span>].forEach(print);<br></code></pre>
+
+<p>看出什么不同了？是的，<code>print</code>被声明为变量，但这个变量不代表具体的数据，而是一个函数。理解一下，上面的代码和下面的是等效的：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-javascript hljs">[<span class="hljs-string">'1'</span>,<span class="hljs-string">'2'</span>,<span class="hljs-string">'3'</span>].forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">i</span>)</span>{<br>    <span class="hljs-built_in">console</span>.log(i);<br>});<br></code></pre>
+
+<ol start="2"><li rel="2">变量都是不可变的。 <br>
+函数就是函数式编程中的基础元素，可以完成几乎所有的操作，哪怕最简单的计算，也是用函数完成的。我们通常理解的变量在函数式编程中也被函数代替了：在函数式编程中变量仅仅代表某个表达式（这样我们就不用把所有的代码都写在同一行里了）。所以我们这里所说的‘变量’是不能被修改的。所有的变量只能被赋一次初值。 <br>
+阿隆佐在设计lambda演算的时候他并不想要保留状态的值以便稍后修改这些值。他更关心的是基于数据之上的操作（也就是更容易理解的“计算”） <br>
+那么函数式编程思想中如何改变状态值？实际上函数式编程也可以改变状态值，但采取的是拷贝一份后修改的方式，而原来的值肯定不会修改。换句话说，只会产生新的数据，而不会修改旧的数据，而且<strong>用函数返回变化的变量值</strong>。</li>
+</ol>
+
+<p>看下面的字符串翻转的例子</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-javascript hljs"><span class="hljs-comment">// 实现1</span><br><span class="hljs-keyword">var</span> str = <span class="hljs-string">'abcdefg'</span><br><span class="hljs-keyword">var</span> reverseStr = <span class="hljs-string">''</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = str.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {<br>    reverseStr += str[i]<br>}<br><br><span class="hljs-comment">// 实现2</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reverse</span>(<span class="hljs-params">arg</span>) </span>{<br>    <span class="hljs-keyword">var</span> reverseStr = <span class="hljs-string">''</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = arg.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {<br>        reverseStr += arg[i];<br>    }   <br>    <span class="hljs-keyword">return</span> reverseStr;<br>}<br><span class="hljs-keyword">var</span> reverseStr = reverse(<span class="hljs-string">'abcdefg'</span>);<br></code></pre>
+
+<p>那么函数式的实现就是这样，不使用语句，只使用有计算功能的函数表达式来完成，而且中间保存变量将使用函数返回：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-javascript hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reverse</span>(<span class="hljs-params">arg</span>) </span>{<br>    <span class="hljs-keyword">if</span>(arg.length == <span class="hljs-number">0</span>) {<br>        <span class="hljs-keyword">return</span> arg;<br>    }<br>    <span class="hljs-keyword">else</span> {<br>        <span class="hljs-keyword">return</span> reverse(arg.substring(<span class="hljs-number">1</span>, arg.length)) + arg.substring(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);<br>    }<br>}<br><span class="hljs-keyword">var</span> reverseStr = reverse(<span class="hljs-string">'abcdefg'</span>);<br></code></pre>
+
+<p>可以看到了，使用递归来保持和返回变化的状态。有人问了，这有什么好处？实现1和实现2写的也不错啊，那么问一下，如果放在多线程里，你怎么看实现1和实现2？那么肯定要考虑到变量的多线程访问问题了。</p>
+
+<ol start="3"><li rel="3"><p>函数式编程中的变量只是个<code>名称</code>或者<code>符号</code>，通常上是代表函数，如<code>var print = function(i) { console.log(i);}</code>，这里<code>print</code>变量的意义已经不是指令式编程的数据存储的含义，只是代表了一段数据的名字，代表了一个函数。</p></li>
+<li rel="4"><p>没有<strong>副作用</strong>，函数是独立的，作用就是计算出一个新的结果，不会修改外部的数据，不会修改传入的参数。 <br>
+来看一段指令式编程的例子：</p></li>
+</ol>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-javascript hljs"><span class="hljs-keyword">var</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToA</span>(<span class="hljs-params">i</span>) </span>{<br>    <span class="hljs-keyword">return</span> a+i;<br>}<br><span class="hljs-keyword">var</span> b = addToA(<span class="hljs-number">1</span>); <span class="hljs-comment">// b = 2;</span><br><br>a = <span class="hljs-number">2</span>;<br><span class="hljs-keyword">var</span> c = addToA(<span class="hljs-number">1</span>); <span class="hljs-comment">// c = 3;</span><br></code></pre>
+
+<p>其实这个是个很常见的写法，因为变量<code>a</code>经常是我们一个类里的成员变量，或者属性，这就给函数<code>addToA()</code>带来了变化，你不知道函数会返回什么，必须参考<code>a</code>当前的值才能计算出来。 <br>
+而函数式编程，一个函数不能参考外部的变量来计算，完全只针对传递进入的参数来计算。</p>
+
+<ol start="5"><li rel="5">确定性，对一个函数传递相同的参数，返回结果都一致，设计函数时就不用考虑其他外界变量和上下文，只考虑传入的参数。显而易见，这样不会有外界的变量或者上下文干扰，非常地纯粹。这样做非常容易理解函数的功能和行为，不会类似指令式编程，不同的环境给出不同的状态值将导致函数产生不同的运行结果。</li>
+</ol>
+
+<p>做过多线程开发的开发者都会对指令式编程中这个领域都会深有感触，需要考虑的东西太多了，共用资源的竞争，线程状态，互斥锁，而且串行和并发顺序控制也会影响运行结果。由此可见，函数式编程的这几个特性对于并行运算就非常有利，不需要考虑资源修改，占用和死锁，对于现在CPU的主频发展遇到瓶颈，需要靠加入更多核心来扩展计算能力的情况下，非常实用和很适用。也是这段时间，函数式编程慢慢被大家重视的一个因素。</p>
+
+<p>函数式编程还有一些特性，先不在这篇文章里展开描述了，本着学以致用，我们先了解这些基本就OK。为了对即将重点学习的<strong>函数响应式开发</strong>做准备，我们只需要记住这几个要点：</p>
+
+<blockquote>
+  <ul><li>函数式编程不是OOP，而是另外一种靠函数解决问题的思路，重构的思想还是可以继续，但重点不放在类上，而是放在函数上。</li>
+  <li>函数式编程中，函数可以作为参数和返回值。</li>
+  <li>通过函数处理的参数数据，返回的是新的数据，不再是对传入参数的修改。</li>
+  <li>没有副作用，对函数以外的数据，不依赖，也不修改。</li>
+  </ul>
+</blockquote>
+
+<p>参考： <br>
+函数式编程 <br>
+<a href="https://zh.wikipedia.org/wiki/%CE%9B%E6%BC%94%E7%AE%97" target="_blank">λ演算</a></p></div></body></html>
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/09/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91%E6%96%B0%E7%94%9F%E4%BA%A7%E5%8A%9B%E7%B3%BB%E5%88%97-3-%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%AC%AC%E4%BA%8C%E7%AF%87/" title="link to 移动开发新生产力系列：（3）函数响应式编程基础第二篇">移动开发新生产力系列：（3）函数响应式编程基础第二篇</a></h2>
+       <p class="excerpt">&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;移动开发新生产力系列：（3）函数响应式编程基础第二篇&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div id='preview-contents' class='note-content'&gt;移动开发新生产力系列：（3）函数响应式编程基础第二篇引子响应式编程起源深入理解回顾函数式开发响应式开发引子上一篇《移动开发新生产力系列：（2）函数响应式编程基础第一篇...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-09-23 00:00:00 +0800" class="post-list__meta--date date">2016-09-23</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/09/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91%E6%96%B0%E7%94%9F%E4%BA%A7%E5%8A%9B%E7%B3%BB%E5%88%97-3-%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%AC%AC%E4%BA%8C%E7%AF%87/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/09/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91%E6%96%B0%E7%94%9F%E4%BA%A7%E5%8A%9B%E7%B3%BB%E5%88%97-1-%E4%BC%98%E5%8C%96%E5%BC%80%E5%8F%91%E6%80%9D%E6%83%B3%E5%92%8C%E8%A1%8C%E4%B8%BA/" title="link to 移动开发新生产力系列：（1）优化开发思想和行为">移动开发新生产力系列：（1）优化开发思想和行为</a></h2>
+       <p class="excerpt">&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;移动开发新生产力系列：（1）优化开发思想和行为&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div id='preview-contents' class='note-content'&gt;移动开发新生产力系列：（1）优化开发思想和行为工具的使用IDE工具使用要精熟善用快捷键，远离鼠标更规范的开发思想，开发好习惯的养成起名字要慎重注释的力量空函数驱动开发这是一...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-09-01 00:00:00 +0800" class="post-list__meta--date date">2016-09-01</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/09/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91%E6%96%B0%E7%94%9F%E4%BA%A7%E5%8A%9B%E7%B3%BB%E5%88%97-1-%E4%BC%98%E5%8C%96%E5%BC%80%E5%8F%91%E6%80%9D%E6%83%B3%E5%92%8C%E8%A1%8C%E4%B8%BA/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2016-10-21 生成，感谢 <a href="http://www.vultr.com/?ref=6829623">Vultr</a> 为本站提供稳定的 VPS 服务</span>
+        <span class="footer__copyright">本站采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/mobileyangli/mobileyangli.github.io">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

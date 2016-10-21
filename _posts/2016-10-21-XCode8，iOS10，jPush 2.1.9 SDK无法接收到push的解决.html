@@ -1,0 +1,45 @@
+---
+layout: post
+---
+
+
+<!DOCTYPE html><html><head><title>XCode8，iOS10，jPush 2.1.9 SDK无法接收到push的解决</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        
+                    
+
+
+
+
+
+<p></p>
+
+<p>项目昨天升级jPush到2.1.9，官方声称是支持了iOS10，XCode8，按官方的<a href="https://docs.jiguang.cn/jpush/client/iOS/ios_guide_new/" target="_blank">集成配置</a>修改，无论怎么测试都无法收到push，今天上午，突然3台iOS10手机全能收到，下午又突然诡异地全都收不到了。</p>
+
+<p>官方论坛也发帖求助，还是无果。好吧，同样的代码出现灵异事件，我们发挥主动性自己解决吧。 <br>
+上iOS10的变化是</p>
+
+<blockquote>
+  <ul><li>需要引入UserNotifications.framework <br>
+  代码中注册jPush服务和iOS8、9版本不同，需要使用delegate方式来实现jPush的JPUSHRegisterDelegate。</li>
+  </ul>
+</blockquote>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objectivec hljs"><span class="hljs-keyword">if</span> ([[<span class="hljs-built_in">UIDevice</span> currentDevice]<span class="hljs-variable">.systemVersion</span> floatValue] &gt;= <span class="hljs-number">10.0</span>) {<br><span class="hljs-preprocessor">#ifdef NSFoundationVersionNumber_iOS_9_x_Max</span><br>    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];<br>    entity<span class="hljs-variable">.types</span> = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge | UNAuthorizationOptionSound;<br>    [JPUSHService registerForRemoteNotificationConfig:entity delegate:<span class="hljs-keyword">self</span>];<br><span class="hljs-preprocessor">#endif</span><br>}<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([[<span class="hljs-built_in">UIDevice</span> currentDevice]<span class="hljs-variable">.systemVersion</span> floatValue] &gt;= <span class="hljs-number">7.0</span>) {<br>    [JPUSHService registerForRemoteNotificationTypes:(<span class="hljs-built_in">UIRemoteNotificationTypeBadge</span> | <span class="hljs-built_in">UIRemoteNotificationTypeSound</span> | <span class="hljs-built_in">UIRemoteNotificationTypeAlert</span>) categories:<span class="hljs-literal">nil</span>];<br>    [JPUSHService setupWithOption:launchOptions appKey:JPUSH_APP_KEY channel:JPUSH_CHANNEL apsForProduction:JPUSH_IS_PRODUCT advertisingIdentifier:<span class="hljs-literal">nil</span>];<br>}<br><br><span class="hljs-comment">// 实现jPush的Delegate</span><br><span class="hljs-comment">// iOS 10 Support</span><br>- (<span class="hljs-keyword">void</span>)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSInteger</span>))completionHandler {<br>}<br><span class="hljs-comment">// iOS 10 Support</span><br>- (<span class="hljs-keyword">void</span>)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(<span class="hljs-keyword">void</span> (^)())completionHandler {<br>}<br></code></pre>
+
+<p>但是，不好用！实际上iOS8、9上jPush还是很稳定的，iOS10全部发送可以发到，但按tag发送不行。 <br>
+看起来问题出现在注册tag上。</p>
+
+<p>我们曲线救国一下，实际上想想jPush的本质就是把Apple的API封装了一层，加入自己的tag/alains/registrationID等适合开发人员二次开发的特性。</p>
+
+<p>好了，既然按照jPush自己的配置无法做到发送成功，就我们自己实现Apple的delegate</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objectivec hljs">    <span class="hljs-comment">// 我们依照原iOS8/9的方式正常注册jPush</span><br>    [JPUSHService registerForRemoteNotificationTypes:(<span class="hljs-built_in">UIRemoteNotificationTypeBadge</span> | <span class="hljs-built_in">UIRemoteNotificationTypeSound</span> | <span class="hljs-built_in">UIRemoteNotificationTypeAlert</span>) categories:<span class="hljs-literal">nil</span>];<br>    [JPUSHService setupWithOption:launchOptions appKey:JPUSH_APP_KEY channel:JPUSH_CHANNEL apsForProduction:JPUSH_IS_PRODUCT advertisingIdentifier:<span class="hljs-literal">nil</span>];<br><br>    <span class="hljs-comment">// 这里是重点，我们自己实现Apple的notification delegate</span><br>    <span class="hljs-keyword">if</span>([[<span class="hljs-built_in">UIDevice</span> currentDevice]<span class="hljs-variable">.systemVersion</span> floatValue] &gt;=<span class="hljs-number">10.0</span>) {<br><span class="hljs-preprocessor">#ifdef NSFoundationVersionNumber_iOS_9_x_Max</span><br>        [[UNUserNotificationCenter currentNotificationCenter] setDelegate:<span class="hljs-keyword">self</span>];<br><span class="hljs-preprocessor">#endif</span><br>    }<br><br>    <span class="hljs-comment">// 下面就是正常按照Apple的delegate来实现的代码，其实和jpush的delegate一样，可以比较知道，jpush的delegate就是简单的封装并转发了一下</span><br>-(<span class="hljs-keyword">void</span>)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(<span class="hljs-keyword">void</span> (^)(UNNotificationPresentationOptions))completionHandler{<br>    <span class="hljs-built_in">NSDictionary</span> * userInfo = notification<span class="hljs-variable">.request</span><span class="hljs-variable">.content</span><span class="hljs-variable">.userInfo</span>;<br>    <span class="hljs-keyword">if</span>([notification<span class="hljs-variable">.request</span><span class="hljs-variable">.trigger</span> isKindOfClass:[UNPushNotificationTrigger class]]) {<br>        [JPUSHService handleRemoteNotification:userInfo];<br>    }<br>    completionHandler(UNNotificationPresentationOptionAlert); <span class="hljs-comment">// 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以选择设置</span><br>    [<span class="hljs-keyword">self</span> handelJPush:userInfo];<br>}<br><br>- (<span class="hljs-keyword">void</span>)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(<span class="hljs-keyword">void</span> (^)())completionHandler {<br>    <span class="hljs-comment">// Required</span><br>    <span class="hljs-built_in">NSDictionary</span> * userInfo = response<span class="hljs-variable">.notification</span><span class="hljs-variable">.request</span><span class="hljs-variable">.content</span><span class="hljs-variable">.userInfo</span>;<br>    <span class="hljs-keyword">if</span>([response<span class="hljs-variable">.notification</span><span class="hljs-variable">.request</span><span class="hljs-variable">.trigger</span> isKindOfClass:[UNPushNotificationTrigger class]]) {<br>        [JPUSHService handleRemoteNotification:userInfo];<br>    }<br>    completionHandler();  <span class="hljs-comment">// 系统要求执行这个方法</span><br>    [<span class="hljs-keyword">self</span> handelJPush:userInfo];<br>}<br></code></pre>
+
+<p>这样，经过测试，无论是iOS8、9、10都可以正常收到push，而且没有什么副作用。</p></div></body></html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Xcode8，ios10，jpush 2.1.9 sdk无法接收到push的解决</title>
+  <meta name="description" content="XCode8，iOS10，jPush 2.1.9 SDK无法接收到push的解决.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micr...">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Xcode8，ios10，jpush 2.1.9 sdk无法接收到push的解决">
+  <meta name="twitter:description" content="XCode8，iOS10，jPush 2.1.9 SDK无法接收到push的解决.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micr...">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Xcode8，ios10，jpush 2.1.9 sdk无法接收到push的解决">
+  <meta property="og:description" content="XCode8，iOS10，jPush 2.1.9 SDK无法接收到push的解决.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micr...">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="/2016/10/XCode8-iOS10-jPush-2.1.9-SDK%E6%97%A0%E6%B3%95%E6%8E%A5%E6%94%B6%E5%88%B0push%E7%9A%84%E8%A7%A3%E5%86%B3/">
+  <link rel="alternate" type="application/rss+xml" title="杨力的反思之旅" href="/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 杨力的反思之旅 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="杨力的反思之旅 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 杨力的反思之旅" class="blog-button">杨力的反思之旅</a></h1>
+
+        
+        <span class="panel-cover__subtitle panel-subtitle">起个大早，赶个晚集。虽然是迟来了，但我也来啦^_^</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">嗨，我是杨力(Link Yang)，沉浸于iOS移动App，.Net企业应用等技术，Cocos2d系列/SmartFoxServer相关游戏技术的全能型创意工程师。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        <p class="panel-cover__description">Believe in yourself.</p>
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+
+  
+  
+  
+
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-green"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-10-21 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2016-10-21</time> &#8226; <span class="post-meta__tags tags"></span>
+    </div>
+    <h1 class="post-title">Xcode8，ios10，jpush 2.1.9 sdk无法接收到push的解决</h1>
+  </header>
+
+  <section class="post">
+    <!DOCTYPE html><html><head><title>XCode8，iOS10，jPush 2.1.9 SDK无法接收到push的解决</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        
+                    
+
+
+
+
+
+<p></p>
+
+<p>项目昨天升级jPush到2.1.9，官方声称是支持了iOS10，XCode8，按官方的<a href="https://docs.jiguang.cn/jpush/client/iOS/ios_guide_new/" target="_blank">集成配置</a>修改，无论怎么测试都无法收到push，今天上午，突然3台iOS10手机全能收到，下午又突然诡异地全都收不到了。</p>
+
+<p>官方论坛也发帖求助，还是无果。好吧，同样的代码出现灵异事件，我们发挥主动性自己解决吧。 <br>
+上iOS10的变化是</p>
+
+<blockquote>
+  <ul><li>需要引入UserNotifications.framework <br>
+  代码中注册jPush服务和iOS8、9版本不同，需要使用delegate方式来实现jPush的JPUSHRegisterDelegate。</li>
+  </ul>
+</blockquote>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objectivec hljs"><span class="hljs-keyword">if</span> ([[<span class="hljs-built_in">UIDevice</span> currentDevice]<span class="hljs-variable">.systemVersion</span> floatValue] &gt;= <span class="hljs-number">10.0</span>) {<br><span class="hljs-preprocessor">#ifdef NSFoundationVersionNumber_iOS_9_x_Max</span><br>    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];<br>    entity<span class="hljs-variable">.types</span> = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge | UNAuthorizationOptionSound;<br>    [JPUSHService registerForRemoteNotificationConfig:entity delegate:<span class="hljs-keyword">self</span>];<br><span class="hljs-preprocessor">#endif</span><br>}<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([[<span class="hljs-built_in">UIDevice</span> currentDevice]<span class="hljs-variable">.systemVersion</span> floatValue] &gt;= <span class="hljs-number">7.0</span>) {<br>    [JPUSHService registerForRemoteNotificationTypes:(<span class="hljs-built_in">UIRemoteNotificationTypeBadge</span> | <span class="hljs-built_in">UIRemoteNotificationTypeSound</span> | <span class="hljs-built_in">UIRemoteNotificationTypeAlert</span>) categories:<span class="hljs-literal">nil</span>];<br>    [JPUSHService setupWithOption:launchOptions appKey:JPUSH_APP_KEY channel:JPUSH_CHANNEL apsForProduction:JPUSH_IS_PRODUCT advertisingIdentifier:<span class="hljs-literal">nil</span>];<br>}<br><br><span class="hljs-comment">// 实现jPush的Delegate</span><br><span class="hljs-comment">// iOS 10 Support</span><br>- (<span class="hljs-keyword">void</span>)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSInteger</span>))completionHandler {<br>}<br><span class="hljs-comment">// iOS 10 Support</span><br>- (<span class="hljs-keyword">void</span>)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(<span class="hljs-keyword">void</span> (^)())completionHandler {<br>}<br></code></pre>
+
+<p>但是，不好用！实际上iOS8、9上jPush还是很稳定的，iOS10全部发送可以发到，但按tag发送不行。 <br>
+看起来问题出现在注册tag上。</p>
+
+<p>我们曲线救国一下，实际上想想jPush的本质就是把Apple的API封装了一层，加入自己的tag/alains/registrationID等适合开发人员二次开发的特性。</p>
+
+<p>好了，既然按照jPush自己的配置无法做到发送成功，就我们自己实现Apple的delegate</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objectivec hljs">    <span class="hljs-comment">// 我们依照原iOS8/9的方式正常注册jPush</span><br>    [JPUSHService registerForRemoteNotificationTypes:(<span class="hljs-built_in">UIRemoteNotificationTypeBadge</span> | <span class="hljs-built_in">UIRemoteNotificationTypeSound</span> | <span class="hljs-built_in">UIRemoteNotificationTypeAlert</span>) categories:<span class="hljs-literal">nil</span>];<br>    [JPUSHService setupWithOption:launchOptions appKey:JPUSH_APP_KEY channel:JPUSH_CHANNEL apsForProduction:JPUSH_IS_PRODUCT advertisingIdentifier:<span class="hljs-literal">nil</span>];<br><br>    <span class="hljs-comment">// 这里是重点，我们自己实现Apple的notification delegate</span><br>    <span class="hljs-keyword">if</span>([[<span class="hljs-built_in">UIDevice</span> currentDevice]<span class="hljs-variable">.systemVersion</span> floatValue] &gt;=<span class="hljs-number">10.0</span>) {<br><span class="hljs-preprocessor">#ifdef NSFoundationVersionNumber_iOS_9_x_Max</span><br>        [[UNUserNotificationCenter currentNotificationCenter] setDelegate:<span class="hljs-keyword">self</span>];<br><span class="hljs-preprocessor">#endif</span><br>    }<br><br>    <span class="hljs-comment">// 下面就是正常按照Apple的delegate来实现的代码，其实和jpush的delegate一样，可以比较知道，jpush的delegate就是简单的封装并转发了一下</span><br>-(<span class="hljs-keyword">void</span>)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(<span class="hljs-keyword">void</span> (^)(UNNotificationPresentationOptions))completionHandler{<br>    <span class="hljs-built_in">NSDictionary</span> * userInfo = notification<span class="hljs-variable">.request</span><span class="hljs-variable">.content</span><span class="hljs-variable">.userInfo</span>;<br>    <span class="hljs-keyword">if</span>([notification<span class="hljs-variable">.request</span><span class="hljs-variable">.trigger</span> isKindOfClass:[UNPushNotificationTrigger class]]) {<br>        [JPUSHService handleRemoteNotification:userInfo];<br>    }<br>    completionHandler(UNNotificationPresentationOptionAlert); <span class="hljs-comment">// 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以选择设置</span><br>    [<span class="hljs-keyword">self</span> handelJPush:userInfo];<br>}<br><br>- (<span class="hljs-keyword">void</span>)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(<span class="hljs-keyword">void</span> (^)())completionHandler {<br>    <span class="hljs-comment">// Required</span><br>    <span class="hljs-built_in">NSDictionary</span> * userInfo = response<span class="hljs-variable">.notification</span><span class="hljs-variable">.request</span><span class="hljs-variable">.content</span><span class="hljs-variable">.userInfo</span>;<br>    <span class="hljs-keyword">if</span>([response<span class="hljs-variable">.notification</span><span class="hljs-variable">.request</span><span class="hljs-variable">.trigger</span> isKindOfClass:[UNPushNotificationTrigger class]]) {<br>        [JPUSHService handleRemoteNotification:userInfo];<br>    }<br>    completionHandler();  <span class="hljs-comment">// 系统要求执行这个方法</span><br>    [<span class="hljs-keyword">self</span> handelJPush:userInfo];<br>}<br></code></pre>
+
+<p>这样，经过测试，无论是iOS8、9、10都可以正常收到push，而且没有什么副作用。</p></div></body></html>
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/09/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91%E6%96%B0%E7%94%9F%E4%BA%A7%E5%8A%9B%E7%B3%BB%E5%88%97-3-%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%AC%AC%E4%BA%8C%E7%AF%87/" title="link to 移动开发新生产力系列：（3）函数响应式编程基础第二篇">移动开发新生产力系列：（3）函数响应式编程基础第二篇</a></h2>
+       <p class="excerpt">&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;移动开发新生产力系列：（3）函数响应式编程基础第二篇&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div id='preview-contents' class='note-content'&gt;移动开发新生产力系列：（3）函数响应式编程基础第二篇引子响应式编程起源深入理解回顾函数式开发响应式开发引子上一篇《移动开发新生产力系列：（2）函数响应式编程基础第一篇...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-09-23 00:00:00 +0800" class="post-list__meta--date date">2016-09-23</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/09/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91%E6%96%B0%E7%94%9F%E4%BA%A7%E5%8A%9B%E7%B3%BB%E5%88%97-3-%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%AC%AC%E4%BA%8C%E7%AF%87/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2016-10-21 生成，感谢 <a href="http://www.vultr.com/?ref=6829623">Vultr</a> 为本站提供稳定的 VPS 服务</span>
+        <span class="footer__copyright">本站采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/mobileyangli/mobileyangli.github.io">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>
